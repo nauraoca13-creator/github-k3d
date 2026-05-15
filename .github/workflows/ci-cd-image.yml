@@ -25,6 +25,8 @@ jobs:
   deploy-k3d:
     needs: build-push-image
     runs-on: self-hosted
+    env:
+      KUBECONFIG: /home/student/.kube/config
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
