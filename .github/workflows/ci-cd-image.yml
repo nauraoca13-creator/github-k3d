@@ -1,3 +1,4 @@
+cat > ~/github-k3d/.github/workflows/ci-cd-image.yml << 'EOF'
 name: Build, Push and Deploy to K3D
 run-name: Build, Push and Deploy to KD
 on: [push]
@@ -30,10 +31,19 @@ jobs:
       - name: Replace variables in the template and output to deployment.yaml
         run: envsubst < webserver.yaml.template > webserver.yaml
       - name: Create deployment
-        run: kubectl apply -f webserver.yaml
+        run: |
+          export PATH=$PATH:/usr/local/bin
+          kubectl apply -f webserver.yaml
       - name: View deployment
-        run: kubectl get deployments
+        run: |
+          export PATH=$PATH:/usr/local/bin
+          kubectl get deployments
       - name: Create service
-        run: kubectl apply -f webserver-svc.yaml
+        run: |
+          export PATH=$PATH:/usr/local/bin
+          kubectl apply -f webserver-svc.yaml
       - name: View service
-        run: kubectl get services
+        run: |
+          export PATH=$PATH:/usr/local/bin
+          kubectl get services
+EOF
